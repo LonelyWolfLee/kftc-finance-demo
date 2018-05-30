@@ -6,27 +6,19 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import pro.lonelywolf.demo.kftc.api.ApiConfig;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter @Setter
 @Accessors(chain = true)
 public class AuthorizeReq {
 
-    @JsonProperty("response_type")
     private String responseType = "code";
-
-    @JsonProperty("client_id")
     private String clientId = ApiConfig.CLIENT_ID;
-
-    @JsonProperty("redirect_uri")
     private String redirectUri = ApiConfig.AUTHORIZE_REDIRECT_URI;
-
     private String scope = "login inquiry transfer";
-
-    @JsonProperty("client_info")
     private String clientInfo = "test";
-
-    @JsonProperty("auth_type")
     private String authType = AuthType.FIRST.code;
-
     private String lang = "kor";
 
     private enum AuthType {
@@ -37,5 +29,18 @@ public class AuthorizeReq {
         AuthType(String code) {
             this.code = code;
         }
+    }
+
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("response_type", this.responseType);
+        map.put("client_id", this.clientId);
+        map.put("redirect_uri", this.redirectUri);
+        map.put("scope", this.scope);
+        map.put("client_info", this.clientInfo);
+        map.put("auth_type", this.authType);
+
+        return map;
     }
 }

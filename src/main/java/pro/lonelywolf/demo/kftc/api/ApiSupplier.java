@@ -1,6 +1,7 @@
 package pro.lonelywolf.demo.kftc.api;
 
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiSupplier {
 
@@ -10,7 +11,10 @@ public class ApiSupplier {
     public static final AuthApi AUTH_API;
 
     static {
-        RETROFIT = new Retrofit.Builder().baseUrl(HOST).build();
+        RETROFIT = new Retrofit.Builder()
+                .baseUrl(HOST)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         AUTH_API = RETROFIT.create(AuthApi.class);
     }
 }
