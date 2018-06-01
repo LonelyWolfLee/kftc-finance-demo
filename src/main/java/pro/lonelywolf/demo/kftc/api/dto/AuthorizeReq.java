@@ -1,13 +1,14 @@
 package pro.lonelywolf.demo.kftc.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import pro.lonelywolf.demo.kftc.api.ApiConfig;
+import pro.lonelywolf.demo.kftc.util.UrlTools;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
 @Getter @Setter
 @Accessors(chain = true)
@@ -31,15 +32,16 @@ public class AuthorizeReq {
         }
     }
 
-    public Map<String, String> toMap() {
-        Map<String, String> map = new HashMap<>();
+    public MultiValueMap<String, String> toMultiValueMap() throws UnsupportedEncodingException {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 
-        map.put("response_type", this.responseType);
-        map.put("client_id", this.clientId);
-        map.put("redirect_uri", this.redirectUri);
-        map.put("scope", this.scope);
-        map.put("client_info", this.clientInfo);
-        map.put("auth_type", this.authType);
+        map.add("response_type", this.responseType);
+        map.add("client_id", this.clientId);
+        map.add("redirect_uri", UrlTools.encode(this.redirectUri));
+        map.add("scope", UrlTools.encode(this.scope));
+        map.add("client_info", this.clientInfo);
+        map.add("auth_type", this.authType);
+        map.add("lang", this.lang);
 
         return map;
     }
